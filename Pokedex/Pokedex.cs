@@ -19,7 +19,7 @@ namespace Pokedex
 
         private readonly CultureInfo _cultureInfo;
         private readonly TextInfo _textInfo;
-        private readonly int Lenght;
+        private readonly int _lenght;
 
         public Pokedex()
         {
@@ -27,7 +27,7 @@ namespace Pokedex
 
             _cultureInfo = Thread.CurrentThread.CurrentCulture;
             _textInfo = _cultureInfo.TextInfo;
-            Lenght = Convert.ToInt32(ConfigurationManager.AppSettings.Get("MaxLengthPokedex"));
+            _lenght = Convert.ToInt32(ConfigurationManager.AppSettings.Get("MaxLengthPokedex"));
 
             BloquearBotoes();
             Populate();
@@ -35,7 +35,7 @@ namespace Pokedex
 
         private async void Populate()
         {
-            var responseList = await ApiPokemon.Instace().GetRequest($"pokemon?limit={Lenght}&offset=0"); ;
+            var responseList = await ApiPokemon.Instace().GetRequest($"pokemon?limit={_lenght}&offset=0"); ;
             Pokemons = JsonConvert.DeserializeObject<ListPokemon>(responseList);
 
             var responsePokemon = await ApiPokemon.Instace().GetRequest(Pokemons.Results[Index].Url.ToString());
