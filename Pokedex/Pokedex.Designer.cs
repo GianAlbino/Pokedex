@@ -41,6 +41,7 @@ namespace Pokedex
             // 
             // lbl_nomePokemon
             // 
+            this.lbl_nomePokemon.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.lbl_nomePokemon.AutoSize = true;
             this.lbl_nomePokemon.Font = new System.Drawing.Font("Segoe UI", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.lbl_nomePokemon.Location = new System.Drawing.Point(12, 32);
@@ -51,6 +52,7 @@ namespace Pokedex
             // 
             // btn_proximo
             // 
+            this.btn_proximo.Anchor = System.Windows.Forms.AnchorStyles.Right;
             this.btn_proximo.Location = new System.Drawing.Point(218, 211);
             this.btn_proximo.Name = "btn_proximo";
             this.btn_proximo.Size = new System.Drawing.Size(100, 50);
@@ -61,6 +63,7 @@ namespace Pokedex
             // 
             // btn_anterior
             // 
+            this.btn_anterior.Anchor = System.Windows.Forms.AnchorStyles.Right;
             this.btn_anterior.Location = new System.Drawing.Point(218, 267);
             this.btn_anterior.Name = "btn_anterior";
             this.btn_anterior.Size = new System.Drawing.Size(100, 50);
@@ -71,6 +74,7 @@ namespace Pokedex
             // 
             // btn_detalhes
             // 
+            this.btn_detalhes.Anchor = System.Windows.Forms.AnchorStyles.Right;
             this.btn_detalhes.Location = new System.Drawing.Point(218, 155);
             this.btn_detalhes.Name = "btn_detalhes";
             this.btn_detalhes.Size = new System.Drawing.Size(100, 50);
@@ -81,6 +85,7 @@ namespace Pokedex
             // 
             // img_pokemon
             // 
+            this.img_pokemon.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.img_pokemon.Location = new System.Drawing.Point(12, 117);
             this.img_pokemon.Name = "img_pokemon";
             this.img_pokemon.Size = new System.Drawing.Size(200, 200);
@@ -90,6 +95,7 @@ namespace Pokedex
             // 
             // txt_buscar
             // 
+            this.txt_buscar.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.txt_buscar.Location = new System.Drawing.Point(12, 88);
             this.txt_buscar.Name = "txt_buscar";
             this.txt_buscar.Size = new System.Drawing.Size(200, 23);
@@ -97,6 +103,7 @@ namespace Pokedex
             // 
             // btn_buscar
             // 
+            this.btn_buscar.Anchor = System.Windows.Forms.AnchorStyles.Right;
             this.btn_buscar.Location = new System.Drawing.Point(218, 88);
             this.btn_buscar.Name = "btn_buscar";
             this.btn_buscar.Size = new System.Drawing.Size(99, 61);
@@ -117,6 +124,7 @@ namespace Pokedex
             this.Controls.Add(this.btn_anterior);
             this.Controls.Add(this.btn_proximo);
             this.Controls.Add(this.lbl_nomePokemon);
+            this.MaximizeBox = false;
             this.Name = "Pokedex";
             this.Text = "Pokedex";
             ((System.ComponentModel.ISupportInitialize)(this.img_pokemon)).EndInit();

@@ -2,6 +2,7 @@
 using Pokedex.Models;
 using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Globalization;
 using System.Net.Http;
 using System.Net.Http.Headers;
@@ -15,15 +16,18 @@ namespace Pokedex
     {
         private ListPokemon Pokemons = new ListPokemon();
         private int Index = 0;
-        private CultureInfo CultureInfo;
-        private TextInfo TextInfo;
+
+        private readonly CultureInfo _cultureInfo;
+        private readonly TextInfo _textInfo;
+        private readonly int Lenght;
 
         public Pokedex()
         {
             InitializeComponent();
 
-            CultureInfo = Thread.CurrentThread.CurrentCulture;
-            TextInfo = CultureInfo.TextInfo;
+            _cultureInfo = Thread.CurrentThread.CurrentCulture;
+            _textInfo = _cultureInfo.TextInfo;
+            Lenght = Convert.ToInt32(ConfigurationManager.AppSettings.Get("MaxLengthPokedex"));
 
             BloquearBotoes();
             Populate();
@@ -31,8 +35,7 @@ namespace Pokedex
 
         private async void Populate()
         {
-
-            var responseList = await ApiPokemon.Instace().GetRequest("pokemon?limit=1126&offset=0"); ;
+            var responseList = await ApiPokemon.Instace().GetRequest($"pokemon?limit={Lenght}&offset=0"); ;
             Pokemons = JsonConvert.DeserializeObject<ListPokemon>(responseList);
 
             var responsePokemon = await ApiPokemon.Instace().GetRequest(Pokemons.Results[Index].Url.ToString());
@@ -40,7 +43,7 @@ namespace Pokedex
 
             ChangeImage(pokemon);
 
-            lbl_nomePokemon.Text = $"{pokemon.Id} - {TextInfo.ToTitleCase(pokemon.Name)}";
+            lbl_nomePokemon.Text = $"{pokemon.Id} - {_textInfo.ToTitleCase(pokemon.Name)}";
 
             DesbloquearBotoes();
         }
@@ -59,7 +62,7 @@ namespace Pokedex
 
             Index++;
 
-            if (Index >= Pokemons.Count)
+            if (Index >= Pokemons.Results.Count)
             {
                 Index = 0;
             }
@@ -69,7 +72,7 @@ namespace Pokedex
 
             ChangeImage(pokemon);
 
-            lbl_nomePokemon.Text = $"{pokemon.Id} - {TextInfo.ToTitleCase(pokemon.Name)}";
+            lbl_nomePokemon.Text = $"{pokemon.Id} - {_textInfo.ToTitleCase(pokemon.Name)}";
 
             DesbloquearBotoes();
         }
@@ -82,7 +85,7 @@ namespace Pokedex
 
             if (Index < 0)
             {
-                Index = Convert.ToInt32(Pokemons.Count - 1);
+                Index = Convert.ToInt32(Pokemons.Results.Count - 1);
             }
 
             var responsePokemon = await ApiPokemon.Instace().GetRequest(Pokemons.Results[Index].Url.ToString());
@@ -90,7 +93,7 @@ namespace Pokedex
 
             ChangeImage(pokemon);
 
-            lbl_nomePokemon.Text = $"{pokemon.Id} - {TextInfo.ToTitleCase(pokemon.Name)}";
+            lbl_nomePokemon.Text = $"{pokemon.Id} - {_textInfo.ToTitleCase(pokemon.Name)}";
 
             DesbloquearBotoes();
         }
@@ -113,7 +116,10 @@ namespace Pokedex
             BloquearBotoes();
 
             var oldIndex = Index;
-            Index = Pokemons.Results.FindIndex(0, Convert.ToInt32(Pokemons.Count), x => x.Name == TextInfo.ToLower(txt_buscar.Text));
+
+            Index = Pokemons.Results.FindIndex(0,
+                Convert.ToInt32(Pokemons.Results.Count),
+                x => x.Name == _textInfo.ToLower(txt_buscar.Text));
 
             if(Index != -1)
             {
@@ -122,7 +128,7 @@ namespace Pokedex
 
                 ChangeImage(pokemon);
 
-                lbl_nomePokemon.Text = $"{pokemon.Id} - {TextInfo.ToTitleCase(pokemon.Name)}";
+                lbl_nomePokemon.Text = $"{pokemon.Id} - {_textInfo.ToTitleCase(pokemon.Name)}";
             }
             else
             {
@@ -148,6 +154,7 @@ namespace Pokedex
             btn_anterior.Enabled = true;
             btn_proximo.Enabled = true;
             btn_detalhes.Enabled = true;
+            txt_buscar.Clear();
         }
     }
 }

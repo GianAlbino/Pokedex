@@ -16,19 +16,20 @@ namespace Pokedex
     public partial class DetalhesPokemon : Form
     {
         private readonly Pokemon _pokemon;
-        private CultureInfo CultureInfo;
-        private TextInfo TextInfo;
+        private readonly CultureInfo _cultureInfo;
+        private readonly TextInfo _textInfo;
 
         public DetalhesPokemon(Pokemon pokemon)
         {
             InitializeComponent();
 
-            CultureInfo = Thread.CurrentThread.CurrentCulture;
-            TextInfo = CultureInfo.TextInfo;
+            _cultureInfo = Thread.CurrentThread.CurrentCulture;
+            _textInfo = _cultureInfo.TextInfo;
 
             _pokemon = pokemon;
+            _pokemon.Name = _textInfo.ToTitleCase(_pokemon.Name);
 
-            lbl_nomePokemon.Text = $"{pokemon.Id} - {TextInfo.ToTitleCase(pokemon.Name)}";
+            lbl_nomePokemon.Text = $"{_pokemon.Id} - {_pokemon.Name}";
 
             if (pokemon.Sprites.FrontDefault != null)
             {

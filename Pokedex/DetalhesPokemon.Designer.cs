@@ -180,6 +180,7 @@ namespace Pokedex
             this.Controls.Add(this.btn_tipo);
             this.Controls.Add(this.img_pokemon);
             this.Controls.Add(this.lbl_nomePokemon);
+            this.MaximizeBox = false;
             this.Name = "DetalhesPokemon";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Detalhes Pokemon";
