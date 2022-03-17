@@ -146,7 +146,16 @@ namespace Pokedex
 
                 ChangeImage(pokemon);
 
-                lbl_nomePokemon.Text = $"{pokemon.Id} - {_textInfo.ToTitleCase(pokemon.Name)}";
+                var name = pokemon.Name;
+                var index = 0;
+
+                if (name.Contains('-'))
+                {
+                    index = name.IndexOf('-');
+                }
+
+                name = name.Substring(index, name.Length);
+                lbl_nomePokemon.Text = $"{pokemon.Id} - {_textInfo.ToTitleCase(name)}";
 
                 DesbloquearBotoes();
             }
@@ -199,6 +208,7 @@ namespace Pokedex
                         else
                         {
                             bool result = int.TryParse(txt_buscar.Text, out Index);
+                            Index--;
 
                             if (Pokemons.Results.ElementAtOrDefault(Index) != null && result == true)
                             {
@@ -206,9 +216,7 @@ namespace Pokedex
                             }
                             else
                             {
-                                MessageBox.Show("Id/Nome não encontrado", "Error",
-                                    MessageBoxButtons.OK,
-                                    MessageBoxIcon.Error);
+                                MessageBox.Show("Id/Nome não encontrado", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
 
                                 Index = oldIndex;
 
@@ -243,7 +251,15 @@ namespace Pokedex
             {
                 ChangeImage(pokemon);
 
-                lbl_nomePokemon.Text = $"{pokemon.Id} - {_textInfo.ToTitleCase(pokemon.Name)}";
+                var name = pokemon.Name;
+
+                if (name.Contains('-'))
+                {
+                    var index = name.IndexOf('-');
+                    name = name.Substring(0, index);
+                }
+
+                lbl_nomePokemon.Text = $"{pokemon.Id} - {_textInfo.ToTitleCase(name)}";
             }
 
             return pokemon;
