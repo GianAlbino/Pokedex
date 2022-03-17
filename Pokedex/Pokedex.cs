@@ -147,14 +147,13 @@ namespace Pokedex
                 ChangeImage(pokemon);
 
                 var name = pokemon.Name;
-                var index = 0;
 
                 if (name.Contains('-'))
                 {
-                    index = name.IndexOf('-');
+                    var index = name.IndexOf('-');
+                    name = name.Substring(0, index);
                 }
 
-                name = name.Substring(index, name.Length);
                 lbl_nomePokemon.Text = $"{pokemon.Id} - {_textInfo.ToTitleCase(name)}";
 
                 DesbloquearBotoes();
