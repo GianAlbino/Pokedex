@@ -48,9 +48,9 @@ namespace Pokedex
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Erro interno {ex.Message}", "Error",
-                    MessageBoxButtons.OK,
-                    MessageBoxIcon.Error);
+                MessageBox.Show($"Erro interno: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+
+                DesbloquearBotoes();
             }
         }
 
@@ -65,9 +65,9 @@ namespace Pokedex
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Erro interno {ex.Message}", "Error",
-                    MessageBoxButtons.OK,
-                    MessageBoxIcon.Error);
+                MessageBox.Show($"Erro interno: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+
+                DesbloquearBotoes();
             }
         }
 
@@ -93,7 +93,9 @@ namespace Pokedex
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Erro interno {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show($"Erro interno: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+
+                DesbloquearBotoes();
             }
         }
 
@@ -119,7 +121,9 @@ namespace Pokedex
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Erro interno {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show($"Erro interno: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+
+                DesbloquearBotoes();
             }
         }
 
@@ -148,7 +152,9 @@ namespace Pokedex
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Erro interno {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show($"Erro interno: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+
+                DesbloquearBotoes();
             }
         }
 
@@ -156,6 +162,7 @@ namespace Pokedex
         {
             try
             {
+                var oldIndex = Index;
                 lbl_nomePokemon.Text = "Carregando...";
                 img_pokemon.Image = null;
 
@@ -181,8 +188,6 @@ namespace Pokedex
                     }
                     else
                     {
-                        var oldIndex = Index;
-
                         Index = Pokemons.Results.FindIndex(0,
                             Convert.ToInt32(Pokemons.Results.Count),
                             x => x.Name == _textInfo.ToLower(txt_buscar.Text));
@@ -193,9 +198,9 @@ namespace Pokedex
                         }
                         else
                         {
-                            Index = Convert.ToInt32(txt_buscar.Text) - 1;
+                            bool result = int.TryParse(txt_buscar.Text, out Index);
 
-                            if (Pokemons.Results.ElementAtOrDefault(Index) != null)
+                            if (Pokemons.Results.ElementAtOrDefault(Index) != null && result == true)
                             {
                                 await AlternatePokemon(true);
                             }
@@ -216,16 +221,16 @@ namespace Pokedex
                 }
                 else
                 {
-                    MessageBox.Show("Caixa de pesquisa vazia", "Error",
-                        MessageBoxButtons.OK,
-                        MessageBoxIcon.Error);
+                    MessageBox.Show("Caixa de pesquisa vazia", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
 
                     await AlternatePokemon(true);
                 }
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Erro interno {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show($"Erro interno: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+
+                DesbloquearBotoes();
             }
         }
 
