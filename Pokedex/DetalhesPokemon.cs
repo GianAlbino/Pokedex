@@ -159,14 +159,45 @@ namespace Pokedex
             DesbloquearBotoes();
         }
 
-        private void Btn_peso_Click(object sender, EventArgs e)
+        private async void Btn_vantagem_Click(object sender, EventArgs e)
         {
             BloquearBotoes();
 
-            txtbox_detalhes.AppendText($"Peso do {_pokemon.Name}\r\n");
-            txtbox_detalhes.AppendText($"{_pokemon.Weight} hg\r\n");
+            txtbox_detalhes.AppendText($"Vantagens do {_pokemon.Name}\r\n");
+            var response = await ApiPokemon.Instace().GetRequest($"{_pokemon.Types[0].Type.Url}");
 
-            txtbox_detalhes.AppendText("\r\n");
+            List<TypePokemon> typesPokemon = new List<TypePokemon>
+            {
+                JsonConvert.DeserializeObject<TypePokemon>(response)
+            };
+
+            if (_pokemon.Types.ElementAtOrDefault(1) != null)
+            {
+                response = await ApiPokemon.Instace().GetRequest($"{_pokemon.Types[1].Type.Url}");
+                typesPokemon.Add(JsonConvert.DeserializeObject<TypePokemon>(response));
+            }
+
+            foreach (var type in typesPokemon)
+            {
+                txtbox_detalhes.AppendText($"Vantagens do tipo {type.Name}\r\n");
+
+                foreach (var damage in type.DamageRelations.DoubleDamageTo)
+                {
+                    txtbox_detalhes.AppendText($"2X do tipo {damage.Name}\r\n");
+                }
+
+                foreach (var damage in type.DamageRelations.HalfDamageTo)
+                {
+                    txtbox_detalhes.AppendText($"0.5X do tipo {damage.Name}\r\n");
+                }
+
+                foreach (var damage in type.DamageRelations.NoDamageTo)
+                {
+                    txtbox_detalhes.AppendText($"0X do tipo {damage.Name}\r\n");
+                }
+
+                txtbox_detalhes.AppendText("\r\n");
+            }
 
             DesbloquearBotoes();
         }
@@ -177,6 +208,11 @@ namespace Pokedex
 
             txtbox_detalhes.AppendText($"Altura do {_pokemon.Name}\r\n");
             txtbox_detalhes.AppendText($"{_pokemon.Height} dm\r\n");
+
+            txtbox_detalhes.AppendText("\r\n");
+
+            txtbox_detalhes.AppendText($"Peso do {_pokemon.Name}\r\n");
+            txtbox_detalhes.AppendText($"{_pokemon.Weight} hg\r\n");
 
             txtbox_detalhes.AppendText("\r\n");
 
@@ -194,7 +230,7 @@ namespace Pokedex
 
         private void BloquearBotoes()
         {
-            btn_altura.Enabled = false;
+            btn_vantagem.Enabled = false;
             btn_fraquezas.Enabled = false;
             btn_habilidades.Enabled = false;
             btn_localizacao.Enabled = false;
@@ -207,7 +243,7 @@ namespace Pokedex
 
         private void DesbloquearBotoes()
         {
-            btn_altura.Enabled = true;
+            btn_vantagem.Enabled = true;
             btn_fraquezas.Enabled = true;
             btn_habilidades.Enabled = true;
             btn_localizacao.Enabled = true;

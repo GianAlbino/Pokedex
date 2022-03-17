@@ -38,7 +38,7 @@ namespace Pokedex
             this.btn_movimentos = new System.Windows.Forms.Button();
             this.btn_habilidades = new System.Windows.Forms.Button();
             this.btn_localizacao = new System.Windows.Forms.Button();
-            this.btn_altura = new System.Windows.Forms.Button();
+            this.btn_vantagem = new System.Windows.Forms.Button();
             this.btn_peso = new System.Windows.Forms.Button();
             this.btn_limpar = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.img_pokemon)).BeginInit();
@@ -115,7 +115,7 @@ namespace Pokedex
             // 
             // btn_habilidades
             // 
-            this.btn_habilidades.Location = new System.Drawing.Point(324, 211);
+            this.btn_habilidades.Location = new System.Drawing.Point(324, 267);
             this.btn_habilidades.Name = "btn_habilidades";
             this.btn_habilidades.Size = new System.Drawing.Size(100, 50);
             this.btn_habilidades.TabIndex = 13;
@@ -133,15 +133,15 @@ namespace Pokedex
             this.btn_localizacao.UseVisualStyleBackColor = true;
             this.btn_localizacao.Click += new System.EventHandler(this.Btn_localizacao_Click);
             // 
-            // btn_altura
+            // btn_vantagem
             // 
-            this.btn_altura.Location = new System.Drawing.Point(324, 267);
-            this.btn_altura.Name = "btn_altura";
-            this.btn_altura.Size = new System.Drawing.Size(100, 50);
-            this.btn_altura.TabIndex = 19;
-            this.btn_altura.Text = "Altura";
-            this.btn_altura.UseVisualStyleBackColor = true;
-            this.btn_altura.Click += new System.EventHandler(this.Btn_altura_Click);
+            this.btn_vantagem.Location = new System.Drawing.Point(324, 211);
+            this.btn_vantagem.Name = "btn_vantagem";
+            this.btn_vantagem.Size = new System.Drawing.Size(100, 50);
+            this.btn_vantagem.TabIndex = 19;
+            this.btn_vantagem.Text = "Vantagens";
+            this.btn_vantagem.UseVisualStyleBackColor = true;
+            this.btn_vantagem.Click += new System.EventHandler(this.Btn_vantagem_Click);
             // 
             // btn_peso
             // 
@@ -149,9 +149,9 @@ namespace Pokedex
             this.btn_peso.Name = "btn_peso";
             this.btn_peso.Size = new System.Drawing.Size(100, 50);
             this.btn_peso.TabIndex = 18;
-            this.btn_peso.Text = "Peso";
+            this.btn_peso.Text = "Peso/Altura";
             this.btn_peso.UseVisualStyleBackColor = true;
-            this.btn_peso.Click += new System.EventHandler(this.Btn_peso_Click);
+            this.btn_peso.Click += new System.EventHandler(this.Btn_altura_Click);
             // 
             // btn_limpar
             // 
@@ -169,7 +169,7 @@ namespace Pokedex
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(677, 329);
             this.Controls.Add(this.btn_limpar);
-            this.Controls.Add(this.btn_altura);
+            this.Controls.Add(this.btn_vantagem);
             this.Controls.Add(this.btn_peso);
             this.Controls.Add(this.btn_fraquezas);
             this.Controls.Add(this.btn_movimentos);
@@ -201,7 +201,7 @@ namespace Pokedex
         private System.Windows.Forms.Button btn_movimentos;
         private System.Windows.Forms.Button btn_habilidades;
         private System.Windows.Forms.Button btn_localizacao;
-        private System.Windows.Forms.Button btn_altura;
+        private System.Windows.Forms.Button btn_vantagem;
         private System.Windows.Forms.Button btn_peso;
         private System.Windows.Forms.Button btn_limpar;
     }
