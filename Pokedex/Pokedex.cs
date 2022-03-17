@@ -3,12 +3,8 @@ using Pokedex.Models;
 using Pokedex.Properties;
 using System;
 using System.Configuration;
-using System.Drawing;
 using System.Globalization;
-using System.IO;
 using System.Linq;
-using System.Security.Cryptography;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -23,8 +19,6 @@ namespace Pokedex
         private readonly CultureInfo _cultureInfo;
         private readonly TextInfo _textInfo;
         private readonly int _lenght;
-
-        private readonly string key = "GianAlbino162830";
 
         public Pokedex()
         {
@@ -219,7 +213,7 @@ namespace Pokedex
 
                         DesbloquearBotoes();
                     }
-                } 
+                }
                 else
                 {
                     MessageBox.Show("Caixa de pesquisa vazia", "Error",
