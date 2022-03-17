@@ -163,7 +163,7 @@ namespace Pokedex
                 {
                     BloquearBotoes();
 
-                    if (txt_buscar.Text == "trixy_tracers")
+                    if (txt_buscar.Text == "Trixy_Tracers001")
                     {
                         lbl_nomePokemon.Text = "Trixy_Tracers001";
                         img_pokemon.Image = Resources._001;
