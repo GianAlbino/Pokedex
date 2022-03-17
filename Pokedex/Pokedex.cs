@@ -1,12 +1,9 @@
 ﻿using Newtonsoft.Json;
 using Pokedex.Models;
 using System;
-using System.Collections.Generic;
 using System.Configuration;
 using System.Globalization;
 using System.Linq;
-using System.Net.Http;
-using System.Net.Http.Headers;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -48,7 +45,7 @@ namespace Pokedex
 
                 DesbloquearBotoes();
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 MessageBox.Show($"Erro interno {ex.Message}", "Error",
                     MessageBoxButtons.OK,
@@ -217,7 +214,7 @@ namespace Pokedex
             var basePokemon = await ApiPokemon.Instace().GetRequest(Pokemons.Results[Index].Url.ToString());
             Pokemon pokemon = JsonConvert.DeserializeObject<Pokemon>(basePokemon);
 
-            if(changeNameImage == true)
+            if (changeNameImage == true)
             {
                 ChangeImage(pokemon);
 
