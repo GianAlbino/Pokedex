@@ -1,9 +1,14 @@
 ﻿using Newtonsoft.Json;
 using Pokedex.Models;
+using Pokedex.Properties;
 using System;
 using System.Configuration;
+using System.Drawing;
 using System.Globalization;
+using System.IO;
 using System.Linq;
+using System.Security.Cryptography;
+using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -18,6 +23,8 @@ namespace Pokedex
         private readonly CultureInfo _cultureInfo;
         private readonly TextInfo _textInfo;
         private readonly int _lenght;
+
+        private readonly string key = "GianAlbino162830";
 
         public Pokedex()
         {
@@ -164,16 +171,16 @@ namespace Pokedex
 
                     if (txt_buscar.Text == "trixy_tracers")
                     {
-                        lbl_nomePokemon.Text = "trixy_tracers";
-                        img_pokemon.Load($"{Application.StartupPath}/trixy_tracers.png");
+                        lbl_nomePokemon.Text = "Trixy_Tracers001";
+                        img_pokemon.Image = Resources._001;
 
                         txt_buscar.Enabled = true;
                         btn_buscar.Enabled = true;
                     }
-                    else if (txt_buscar.Text == "dickbutt")
+                    else if (txt_buscar.Text == "Dick_Butt002")
                     {
                         lbl_nomePokemon.Text = "dickbutt";
-                        img_pokemon.Load($"{Application.StartupPath}/dickbutt.png");
+                        img_pokemon.Image = Resources._002;
 
                         txt_buscar.Enabled = true;
                         btn_buscar.Enabled = true;
