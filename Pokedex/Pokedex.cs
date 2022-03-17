@@ -165,7 +165,7 @@ namespace Pokedex
 
                     if (txt_buscar.Text == "Trixy_Tracers001")
                     {
-                        lbl_nomePokemon.Text = "Trixy_Tracers001";
+                        lbl_nomePokemon.Text = "trixy tracers";
                         img_pokemon.Image = Resources._001;
 
                         txt_buscar.Enabled = true;
