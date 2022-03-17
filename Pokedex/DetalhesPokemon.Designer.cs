@@ -34,7 +34,7 @@ namespace Pokedex
             this.btn_status = new System.Windows.Forms.Button();
             this.btn_tipo = new System.Windows.Forms.Button();
             this.txtbox_detalhes = new System.Windows.Forms.TextBox();
-            this.btn_experienciaBase = new System.Windows.Forms.Button();
+            this.btn_fraquezas = new System.Windows.Forms.Button();
             this.btn_movimentos = new System.Windows.Forms.Button();
             this.btn_habilidades = new System.Windows.Forms.Button();
             this.btn_localizacao = new System.Windows.Forms.Button();
@@ -93,15 +93,15 @@ namespace Pokedex
             this.txtbox_detalhes.Size = new System.Drawing.Size(235, 276);
             this.txtbox_detalhes.TabIndex = 10;
             // 
-            // btn_experienciaBase
+            // btn_fraquezas
             // 
-            this.btn_experienciaBase.Location = new System.Drawing.Point(324, 155);
-            this.btn_experienciaBase.Name = "btn_experienciaBase";
-            this.btn_experienciaBase.Size = new System.Drawing.Size(100, 50);
-            this.btn_experienciaBase.TabIndex = 15;
-            this.btn_experienciaBase.Text = "Experiência Base";
-            this.btn_experienciaBase.UseVisualStyleBackColor = true;
-            this.btn_experienciaBase.Click += new System.EventHandler(this.Btn_experienciaBase_Click);
+            this.btn_fraquezas.Location = new System.Drawing.Point(324, 155);
+            this.btn_fraquezas.Name = "btn_fraquezas";
+            this.btn_fraquezas.Size = new System.Drawing.Size(100, 50);
+            this.btn_fraquezas.TabIndex = 15;
+            this.btn_fraquezas.Text = "Fraquezas";
+            this.btn_fraquezas.UseVisualStyleBackColor = true;
+            this.btn_fraquezas.Click += new System.EventHandler(this.Btn_fraquezas_Click);
             // 
             // btn_movimentos
             // 
@@ -171,7 +171,7 @@ namespace Pokedex
             this.Controls.Add(this.btn_limpar);
             this.Controls.Add(this.btn_altura);
             this.Controls.Add(this.btn_peso);
-            this.Controls.Add(this.btn_experienciaBase);
+            this.Controls.Add(this.btn_fraquezas);
             this.Controls.Add(this.btn_movimentos);
             this.Controls.Add(this.btn_habilidades);
             this.Controls.Add(this.btn_localizacao);
@@ -197,7 +197,7 @@ namespace Pokedex
         private System.Windows.Forms.Button btn_status;
         private System.Windows.Forms.Button btn_tipo;
         private System.Windows.Forms.TextBox txtbox_detalhes;
-        private System.Windows.Forms.Button btn_experienciaBase;
+        private System.Windows.Forms.Button btn_fraquezas;
         private System.Windows.Forms.Button btn_movimentos;
         private System.Windows.Forms.Button btn_habilidades;
         private System.Windows.Forms.Button btn_localizacao;

@@ -9,6 +9,7 @@ using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace Pokedex
@@ -85,12 +86,45 @@ namespace Pokedex
             DesbloquearBotoes();
         }
 
-        private void Btn_experienciaBase_Click(object sender, EventArgs e)
+        private async void Btn_fraquezas_Click(object sender, EventArgs e)
         {
             BloquearBotoes();
 
-            txtbox_detalhes.AppendText($"Experiencia base do {_pokemon.Name}\r\n");
-            txtbox_detalhes.AppendText($"{_pokemon.BaseExperience}\r\n\r\n");
+            txtbox_detalhes.AppendText($"Fraquezas do {_pokemon.Name}\r\n");
+            var response = await ApiPokemon.Instace().GetRequest($"{_pokemon.Types[0].Type.Url}");
+
+            List<TypePokemon> typesPokemon = new List<TypePokemon>
+            {
+                JsonConvert.DeserializeObject<TypePokemon>(response)
+            };
+
+            if (_pokemon.Types.ElementAtOrDefault(1) != null)
+            {
+                response = await ApiPokemon.Instace().GetRequest($"{_pokemon.Types[1].Type.Url}");
+                typesPokemon.Add(JsonConvert.DeserializeObject<TypePokemon>(response));
+            }
+
+            foreach (var type in typesPokemon)
+            {
+                txtbox_detalhes.AppendText($"Fraquezas do tipo {type.Name}\r\n");
+
+                foreach (var damage in type.DamageRelations.DoubleDamageFrom)
+                {
+                    txtbox_detalhes.AppendText($"2X do tipo {damage.Name}\r\n");
+                }
+
+                foreach (var damage in type.DamageRelations.HalfDamageFrom)
+                {
+                    txtbox_detalhes.AppendText($"0.5X do tipo {damage.Name}\r\n");
+                }
+
+                foreach (var damage in type.DamageRelations.NoDamageFrom)
+                {
+                    txtbox_detalhes.AppendText($"0X do tipo {damage.Name}\r\n");
+                }
+
+                txtbox_detalhes.AppendText("\r\n");
+            }
 
             DesbloquearBotoes();
         }
@@ -165,7 +199,7 @@ namespace Pokedex
         private void BloquearBotoes()
         {
             btn_altura.Enabled = false;
-            btn_experienciaBase.Enabled = false;
+            btn_fraquezas.Enabled = false;
             btn_habilidades.Enabled = false;
             btn_localizacao.Enabled = false;
             btn_movimentos.Enabled = false;
@@ -178,7 +212,7 @@ namespace Pokedex
         private void DesbloquearBotoes()
         {
             btn_altura.Enabled = true;
-            btn_experienciaBase.Enabled = true;
+            btn_fraquezas.Enabled = true;
             btn_habilidades.Enabled = true;
             btn_localizacao.Enabled = true;
             btn_movimentos.Enabled = true;

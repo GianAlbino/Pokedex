@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Globalization;
+using System.Linq;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Threading;
@@ -25,6 +26,9 @@ namespace Pokedex
         {
             InitializeComponent();
 
+            lbl_nomePokemon.Text = "Carregando...";
+            img_pokemon.Image = null;
+
             _cultureInfo = Thread.CurrentThread.CurrentCulture;
             _textInfo = _cultureInfo.TextInfo;
             _lenght = Convert.ToInt32(ConfigurationManager.AppSettings.Get("MaxLengthPokedex"));
@@ -37,21 +41,16 @@ namespace Pokedex
         {
             try
             {
-                var responseList = await ApiPokemon.Instace().GetRequest($"pokemon?limit={_lenght}&offset=0"); ;
+                var responseList = await ApiPokemon.Instace().GetRequest($"pokemon?limit={_lenght}&offset=0");
                 Pokemons = JsonConvert.DeserializeObject<ListPokemon>(responseList);
 
-                var responsePokemon = await ApiPokemon.Instace().GetRequest(Pokemons.Results[Index].Url.ToString());
-                Pokemon pokemon = JsonConvert.DeserializeObject<Pokemon>(responsePokemon);
-
-                ChangeImage(pokemon);
-
-                lbl_nomePokemon.Text = $"{pokemon.Id} - {_textInfo.ToTitleCase(pokemon.Name)}";
+                await AlternatePokemon(true);
 
                 DesbloquearBotoes();
             }
-            catch
+            catch(Exception ex)
             {
-                MessageBox.Show("Erro interno", "Error",
+                MessageBox.Show($"Erro interno {ex.Message}", "Error",
                     MessageBoxButtons.OK,
                     MessageBoxIcon.Error);
             }
@@ -66,9 +65,9 @@ namespace Pokedex
                     img_pokemon.Load(pokemon.Sprites.FrontDefault.ToString());
                 }
             }
-            catch
+            catch (Exception ex)
             {
-                MessageBox.Show("Erro interno", "Error",
+                MessageBox.Show($"Erro interno {ex.Message}", "Error",
                     MessageBoxButtons.OK,
                     MessageBoxIcon.Error);
             }
@@ -78,6 +77,9 @@ namespace Pokedex
         {
             try
             {
+                lbl_nomePokemon.Text = "Carregando...";
+                img_pokemon.Image = null;
+
                 BloquearBotoes();
 
                 Index++;
@@ -87,20 +89,13 @@ namespace Pokedex
                     Index = 0;
                 }
 
-                var responsePokemon = await ApiPokemon.Instace().GetRequest(Pokemons.Results[Index].Url.ToString());
-                Pokemon pokemon = JsonConvert.DeserializeObject<Pokemon>(responsePokemon);
-
-                ChangeImage(pokemon);
-
-                lbl_nomePokemon.Text = $"{pokemon.Id} - {_textInfo.ToTitleCase(pokemon.Name)}";
+                await AlternatePokemon(true);
 
                 DesbloquearBotoes();
             }
-            catch
+            catch (Exception ex)
             {
-                MessageBox.Show("Erro interno", "Error",
-                    MessageBoxButtons.OK,
-                    MessageBoxIcon.Error);
+                MessageBox.Show($"Erro interno {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
@@ -108,6 +103,9 @@ namespace Pokedex
         {
             try
             {
+                lbl_nomePokemon.Text = "Carregando...";
+                img_pokemon.Image = null;
+
                 BloquearBotoes();
 
                 Index--;
@@ -117,20 +115,13 @@ namespace Pokedex
                     Index = Convert.ToInt32(Pokemons.Results.Count - 1);
                 }
 
-                var responsePokemon = await ApiPokemon.Instace().GetRequest(Pokemons.Results[Index].Url.ToString());
-                Pokemon pokemon = JsonConvert.DeserializeObject<Pokemon>(responsePokemon);
-
-                ChangeImage(pokemon);
-
-                lbl_nomePokemon.Text = $"{pokemon.Id} - {_textInfo.ToTitleCase(pokemon.Name)}";
+                await AlternatePokemon(true);
 
                 DesbloquearBotoes();
             }
-            catch
+            catch (Exception ex)
             {
-                MessageBox.Show("Erro interno", "Error",
-                    MessageBoxButtons.OK,
-                    MessageBoxIcon.Error);
+                MessageBox.Show($"Erro interno {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
@@ -138,21 +129,28 @@ namespace Pokedex
         {
             try
             {
+                lbl_nomePokemon.Text = "Carregando...";
+                img_pokemon.Image = null;
+
                 BloquearBotoes();
 
-                var response = await ApiPokemon.Instace().GetRequest(Pokemons.Results[Index].Url.ToString());
-                Pokemon pokemon = JsonConvert.DeserializeObject<Pokemon>(response);
+                var pokemon = await AlternatePokemon(false);
 
                 var detalhesPokemon = new DetalhesPokemon(pokemon);
+
+                Hide();
                 detalhesPokemon.ShowDialog();
+                Show();
+
+                ChangeImage(pokemon);
+
+                lbl_nomePokemon.Text = $"{pokemon.Id} - {_textInfo.ToTitleCase(pokemon.Name)}";
 
                 DesbloquearBotoes();
             }
-            catch
+            catch (Exception ex)
             {
-                MessageBox.Show("Erro interno", "Error",
-                    MessageBoxButtons.OK,
-                    MessageBoxIcon.Error);
+                MessageBox.Show($"Erro interno {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
@@ -160,7 +158,10 @@ namespace Pokedex
         {
             try
             {
-                if(txt_buscar.Text != string.Empty)
+                lbl_nomePokemon.Text = "Carregando...";
+                img_pokemon.Image = null;
+
+                if (txt_buscar.Text != string.Empty)
                 {
                     BloquearBotoes();
 
@@ -172,24 +173,15 @@ namespace Pokedex
 
                     if (Index != -1)
                     {
-                        var responsePokemon = await ApiPokemon.Instace().GetRequest(Pokemons.Results[Index].Url.ToString());
-                        Pokemon pokemon = JsonConvert.DeserializeObject<Pokemon>(responsePokemon);
-
-                        ChangeImage(pokemon);
-
-                        lbl_nomePokemon.Text = $"{pokemon.Id} - {_textInfo.ToTitleCase(pokemon.Name)}";
+                        await AlternatePokemon(true);
                     }
                     else
                     {
-                        var responsePokemon = await ApiPokemon.Instace().GetRequest($"pokemon/{txt_buscar.Text}");
+                        Index = Convert.ToInt32(txt_buscar.Text) - 1;
 
-                        if (responsePokemon != null)
+                        if (Pokemons.Results.ElementAtOrDefault(Index) != null)
                         {
-                            Pokemon pokemon = JsonConvert.DeserializeObject<Pokemon>(responsePokemon);
-
-                            ChangeImage(pokemon);
-
-                            lbl_nomePokemon.Text = $"{pokemon.Id} - {_textInfo.ToTitleCase(pokemon.Name)}";
+                            await AlternatePokemon(true);
                         }
                         else
                         {
@@ -198,6 +190,8 @@ namespace Pokedex
                                 MessageBoxIcon.Error);
 
                             Index = oldIndex;
+
+                            await AlternatePokemon(true);
                         }
                     }
 
@@ -208,14 +202,29 @@ namespace Pokedex
                     MessageBox.Show("Caixa de pesquisa vazia", "Error",
                         MessageBoxButtons.OK,
                         MessageBoxIcon.Error);
+
+                    await AlternatePokemon(true);
                 }
             }
-            catch
+            catch (Exception ex)
             {
-                MessageBox.Show("Erro interno", "Error",
-                    MessageBoxButtons.OK,
-                    MessageBoxIcon.Error);
+                MessageBox.Show($"Erro interno {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
+        }
+
+        private async Task<Pokemon> AlternatePokemon(bool changeNameImage)
+        {
+            var basePokemon = await ApiPokemon.Instace().GetRequest(Pokemons.Results[Index].Url.ToString());
+            Pokemon pokemon = JsonConvert.DeserializeObject<Pokemon>(basePokemon);
+
+            if(changeNameImage == true)
+            {
+                ChangeImage(pokemon);
+
+                lbl_nomePokemon.Text = $"{pokemon.Id} - {_textInfo.ToTitleCase(pokemon.Name)}";
+            }
+
+            return pokemon;
         }
 
         private void BloquearBotoes()

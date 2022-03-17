@@ -44,7 +44,7 @@ namespace Pokedex
             this.lbl_nomePokemon.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.lbl_nomePokemon.AutoSize = true;
             this.lbl_nomePokemon.Font = new System.Drawing.Font("Segoe UI", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.lbl_nomePokemon.Location = new System.Drawing.Point(12, 32);
+            this.lbl_nomePokemon.Location = new System.Drawing.Point(12, 63);
             this.lbl_nomePokemon.Name = "lbl_nomePokemon";
             this.lbl_nomePokemon.Size = new System.Drawing.Size(144, 25);
             this.lbl_nomePokemon.TabIndex = 0;
@@ -53,7 +53,7 @@ namespace Pokedex
             // btn_proximo
             // 
             this.btn_proximo.Anchor = System.Windows.Forms.AnchorStyles.Right;
-            this.btn_proximo.Location = new System.Drawing.Point(218, 211);
+            this.btn_proximo.Location = new System.Drawing.Point(217, 198);
             this.btn_proximo.Name = "btn_proximo";
             this.btn_proximo.Size = new System.Drawing.Size(100, 50);
             this.btn_proximo.TabIndex = 1;
@@ -64,7 +64,7 @@ namespace Pokedex
             // btn_anterior
             // 
             this.btn_anterior.Anchor = System.Windows.Forms.AnchorStyles.Right;
-            this.btn_anterior.Location = new System.Drawing.Point(218, 267);
+            this.btn_anterior.Location = new System.Drawing.Point(217, 254);
             this.btn_anterior.Name = "btn_anterior";
             this.btn_anterior.Size = new System.Drawing.Size(100, 50);
             this.btn_anterior.TabIndex = 2;
@@ -75,7 +75,7 @@ namespace Pokedex
             // btn_detalhes
             // 
             this.btn_detalhes.Anchor = System.Windows.Forms.AnchorStyles.Right;
-            this.btn_detalhes.Location = new System.Drawing.Point(218, 155);
+            this.btn_detalhes.Location = new System.Drawing.Point(217, 142);
             this.btn_detalhes.Name = "btn_detalhes";
             this.btn_detalhes.Size = new System.Drawing.Size(100, 50);
             this.btn_detalhes.TabIndex = 3;
@@ -96,7 +96,7 @@ namespace Pokedex
             // txt_buscar
             // 
             this.txt_buscar.Anchor = System.Windows.Forms.AnchorStyles.Left;
-            this.txt_buscar.Location = new System.Drawing.Point(12, 88);
+            this.txt_buscar.Location = new System.Drawing.Point(12, 12);
             this.txt_buscar.Name = "txt_buscar";
             this.txt_buscar.Size = new System.Drawing.Size(200, 23);
             this.txt_buscar.TabIndex = 5;
@@ -104,9 +104,9 @@ namespace Pokedex
             // btn_buscar
             // 
             this.btn_buscar.Anchor = System.Windows.Forms.AnchorStyles.Right;
-            this.btn_buscar.Location = new System.Drawing.Point(218, 88);
+            this.btn_buscar.Location = new System.Drawing.Point(218, 12);
             this.btn_buscar.Name = "btn_buscar";
-            this.btn_buscar.Size = new System.Drawing.Size(99, 61);
+            this.btn_buscar.Size = new System.Drawing.Size(99, 23);
             this.btn_buscar.TabIndex = 6;
             this.btn_buscar.Text = "Buscar";
             this.btn_buscar.UseVisualStyleBackColor = true;
