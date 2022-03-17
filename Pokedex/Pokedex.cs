@@ -162,38 +162,57 @@ namespace Pokedex
                 {
                     BloquearBotoes();
 
-                    var oldIndex = Index;
-
-                    Index = Pokemons.Results.FindIndex(0,
-                        Convert.ToInt32(Pokemons.Results.Count),
-                        x => x.Name == _textInfo.ToLower(txt_buscar.Text));
-
-                    if (Index != -1)
+                    if (txt_buscar.Text == "trixy_tracers")
                     {
-                        await AlternatePokemon(true);
+                        lbl_nomePokemon.Text = "trixy_tracers";
+                        img_pokemon.Load($"{Application.StartupPath}/trixy_tracers.png");
+
+                        txt_buscar.Enabled = true;
+                        btn_buscar.Enabled = true;
+                    }
+                    else if (txt_buscar.Text == "dickbutt")
+                    {
+                        lbl_nomePokemon.Text = "dickbutt";
+                        img_pokemon.Load($"{Application.StartupPath}/dickbutt.png");
+
+                        txt_buscar.Enabled = true;
+                        btn_buscar.Enabled = true;
                     }
                     else
                     {
-                        Index = Convert.ToInt32(txt_buscar.Text) - 1;
+                        var oldIndex = Index;
 
-                        if (Pokemons.Results.ElementAtOrDefault(Index) != null)
+                        Index = Pokemons.Results.FindIndex(0,
+                            Convert.ToInt32(Pokemons.Results.Count),
+                            x => x.Name == _textInfo.ToLower(txt_buscar.Text));
+
+                        if (Index != -1)
                         {
                             await AlternatePokemon(true);
                         }
                         else
                         {
-                            MessageBox.Show("Id/Nome não encontrado", "Error",
-                                MessageBoxButtons.OK,
-                                MessageBoxIcon.Error);
+                            Index = Convert.ToInt32(txt_buscar.Text) - 1;
 
-                            Index = oldIndex;
+                            if (Pokemons.Results.ElementAtOrDefault(Index) != null)
+                            {
+                                await AlternatePokemon(true);
+                            }
+                            else
+                            {
+                                MessageBox.Show("Id/Nome não encontrado", "Error",
+                                    MessageBoxButtons.OK,
+                                    MessageBoxIcon.Error);
 
-                            await AlternatePokemon(true);
+                                Index = oldIndex;
+
+                                await AlternatePokemon(true);
+                            }
                         }
-                    }
 
-                    DesbloquearBotoes();
-                }
+                        DesbloquearBotoes();
+                    }
+                } 
                 else
                 {
                     MessageBox.Show("Caixa de pesquisa vazia", "Error",
