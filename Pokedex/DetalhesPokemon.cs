@@ -28,12 +28,7 @@ namespace Pokedex
                 _pokemon = pokemon;
                 _pokemon.Name = _textInfo.ToTitleCase(_pokemon.Name);
 
-                lbl_nomePokemon.Text = $"{_pokemon.Id} - {_pokemon.Name}";
-
-                if (pokemon.Sprites.FrontDefault != null)
-                {
-                    img_pokemon.Load(pokemon.Sprites.FrontDefault.ToString());
-                }
+                Populate();
             }
             catch (Exception ex)
             {
@@ -315,6 +310,18 @@ namespace Pokedex
 
                 DesbloquearBotoes();
             }
+        }
+
+        private void Populate()
+        {
+            _pokemon.Name = RepairNames.Instance().Repair(_pokemon.Name);
+
+            if (_pokemon.Sprites.FrontDefault != null)
+            {
+                img_pokemon.Load(_pokemon.Sprites.FrontDefault.ToString());
+            }
+
+            lbl_nomePokemon.Text = $"{_pokemon.Id} - {_textInfo.ToTitleCase(_pokemon.Name)}";
         }
 
         private void BloquearBotoes()

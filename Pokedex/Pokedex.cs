@@ -42,6 +42,8 @@ namespace Pokedex
                 var responseList = await ApiPokemon.Instace().GetRequest($"pokemon?limit={_lenght}&offset=0");
                 Pokemons = JsonConvert.DeserializeObject<ListPokemon>(responseList);
 
+                CleanNames();
+
                 await AlternatePokemon(true);
 
                 DesbloquearBotoes();
@@ -51,6 +53,19 @@ namespace Pokedex
                 MessageBox.Show($"Erro interno: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
 
                 DesbloquearBotoes();
+            }
+        }
+
+        private void CleanNames()
+        {
+            var findAll = Pokemons.Results.FindAll(x => x.Name.Contains('-'));
+
+            foreach (var find in findAll)
+            {
+                var indexFindAll = findAll.IndexOf(find);
+                var indexPokemons = Pokemons.Results.IndexOf(find);
+
+                Pokemons.Results[indexPokemons].Name = RepairNames.Instance().Repair(Pokemons.Results[indexPokemons].Name);
             }
         }
 
@@ -144,17 +159,7 @@ namespace Pokedex
                 detalhesPokemon.ShowDialog();
                 Show();
 
-                ChangeImage(pokemon);
-
-                var name = pokemon.Name;
-
-                if (name.Contains('-'))
-                {
-                    var index = name.IndexOf('-');
-                    name = name.Substring(0, index);
-                }
-
-                lbl_nomePokemon.Text = $"{pokemon.Id} - {_textInfo.ToTitleCase(name)}";
+                AlternateNameImage(pokemon);
 
                 DesbloquearBotoes();
             }
@@ -248,20 +253,19 @@ namespace Pokedex
 
             if (changeNameImage == true)
             {
-                ChangeImage(pokemon);
-
-                var name = pokemon.Name;
-
-                if (name.Contains('-'))
-                {
-                    var index = name.IndexOf('-');
-                    name = name.Substring(0, index);
-                }
-
-                lbl_nomePokemon.Text = $"{pokemon.Id} - {_textInfo.ToTitleCase(name)}";
+                AlternateNameImage(pokemon);
             }
 
             return pokemon;
+        }
+
+        private void AlternateNameImage(Pokemon pokemon)
+        {
+            ChangeImage(pokemon);
+
+            pokemon.Name = RepairNames.Instance().Repair(pokemon.Name);
+
+            lbl_nomePokemon.Text = $"{pokemon.Id} - {_textInfo.ToTitleCase(pokemon.Name)}";
         }
 
         private void BloquearBotoes()
