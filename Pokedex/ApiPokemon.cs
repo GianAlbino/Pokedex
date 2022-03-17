@@ -32,8 +32,7 @@ namespace Pokedex
             HttpResponseMessage response = await _httpClient.GetAsync(url);
 
             if (response.StatusCode != System.Net.HttpStatusCode.OK)
-                throw new Exception($"{GetType().Name} | HttpStatusCode: " +
-                    $"{response.StatusCode} - Url: {_httpClient.BaseAddress}" + url);
+                return null;
 
             var responseString = await response.Content.ReadAsStringAsync();
 
