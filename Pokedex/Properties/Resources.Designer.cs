@@ -79,5 +79,15 @@ namespace Pokedex.Properties {
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
+        
+        /// <summary>
+        ///   Consulta um recurso localizado do tipo System.Drawing.Icon semelhante a (Ícone).
+        /// </summary>
+        internal static System.Drawing.Icon poke {
+            get {
+                object obj = ResourceManager.GetObject("poke", resourceCulture);
+                return ((System.Drawing.Icon)(obj));
+            }
+        }
     }
 }

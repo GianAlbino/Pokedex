@@ -29,6 +29,7 @@ namespace Pokedex
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Pokedex));
             this.lbl_nomePokemon = new System.Windows.Forms.Label();
             this.btn_proximo = new System.Windows.Forms.Button();
             this.btn_anterior = new System.Windows.Forms.Button();
@@ -124,6 +125,7 @@ namespace Pokedex
             this.Controls.Add(this.btn_anterior);
             this.Controls.Add(this.btn_proximo);
             this.Controls.Add(this.lbl_nomePokemon);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;
             this.Name = "Pokedex";
             this.Text = "Pokedex";
