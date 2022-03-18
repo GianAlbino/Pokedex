@@ -442,11 +442,16 @@ namespace Pokedex.Forms
                 {
                     txtbox_detalhes.AppendText($"{_textInfo.ToTitleCase(evolutionPokemon.Chain.EvolvesTo[0].Species.Name)}\r\n");
                 }
-                else if (evolutionPokemon.Chain.EvolvesTo.Count == 1
-                    && evolutionPokemon.Chain.EvolvesTo[0].EvolvesTo.Count == 1)
+                else if (evolutionPokemon.Chain.EvolvesTo.Count >= 1
+                    && evolutionPokemon.Chain.EvolvesTo[0].EvolvesTo.Count >= 1)
                 {
                     txtbox_detalhes.AppendText($"{_textInfo.ToTitleCase(evolutionPokemon.Chain.EvolvesTo[0].Species.Name)}\r\n");
                     txtbox_detalhes.AppendText($"{_textInfo.ToTitleCase(evolutionPokemon.Chain.EvolvesTo[0].EvolvesTo[0].Species.Name)}\r\n");
+
+                    if (evolutionPokemon.Chain.EvolvesTo[0].EvolvesTo.ElementAtOrDefault(1) != null)
+                    {
+                        txtbox_detalhes.AppendText($"{_textInfo.ToTitleCase(evolutionPokemon.Chain.EvolvesTo[0].EvolvesTo[1].Species.Name)}\r\n");
+                    }
                 }
 
                 else if (evolutionPokemon.Chain.EvolvesTo.Count < 1)
