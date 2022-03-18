@@ -69,7 +69,7 @@ namespace Pokedex.Forms
             // 
             // btn_status
             // 
-            this.btn_status.Location = new System.Drawing.Point(231, 211);
+            this.btn_status.Location = new System.Drawing.Point(231, 99);
             this.btn_status.Name = "btn_status";
             this.btn_status.Size = new System.Drawing.Size(100, 50);
             this.btn_status.TabIndex = 8;
@@ -109,7 +109,7 @@ namespace Pokedex.Forms
             // 
             // btn_movimentos
             // 
-            this.btn_movimentos.Location = new System.Drawing.Point(231, 267);
+            this.btn_movimentos.Location = new System.Drawing.Point(231, 211);
             this.btn_movimentos.Name = "btn_movimentos";
             this.btn_movimentos.Size = new System.Drawing.Size(100, 50);
             this.btn_movimentos.TabIndex = 14;
@@ -149,7 +149,7 @@ namespace Pokedex.Forms
             // 
             // btn_peso
             // 
-            this.btn_peso.Location = new System.Drawing.Point(231, 99);
+            this.btn_peso.Location = new System.Drawing.Point(231, 267);
             this.btn_peso.Name = "btn_peso";
             this.btn_peso.Size = new System.Drawing.Size(100, 50);
             this.btn_peso.TabIndex = 18;
