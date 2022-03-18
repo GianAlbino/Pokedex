@@ -15,6 +15,9 @@ namespace Pokedex
         private readonly Pokemon _pokemon;
         private readonly CultureInfo _cultureInfo;
         private readonly TextInfo _textInfo;
+        private readonly List<Uri> _spritesUri = new List<Uri>();
+
+        private int indexForm = 0;
 
         public DetalhesPokemon(Pokemon pokemon)
         {
@@ -318,7 +321,20 @@ namespace Pokedex
 
             if (_pokemon.Sprites.FrontDefault != null)
             {
-                img_pokemon.Load(_pokemon.Sprites.FrontDefault.ToString());
+                _spritesUri.Add(_pokemon.Sprites.FrontDefault);
+                ChangeForm(_pokemon.Sprites.FrontDefault);
+            }
+            if (_pokemon.Sprites.FrontFemale != null)
+            {
+                _spritesUri.Add(_pokemon.Sprites.FrontFemale);
+            }
+            if (_pokemon.Sprites.FrontShiny != null)
+            {
+                _spritesUri.Add(_pokemon.Sprites.FrontShiny);
+            }
+            if (_pokemon.Sprites.FrontShinyFemale != null)
+            {
+                _spritesUri.Add(_pokemon.Sprites.FrontShinyFemale);
             }
 
             lbl_nomePokemon.Text = $"{_pokemon.Id} - {_textInfo.ToTitleCase(_pokemon.Name)}";
@@ -348,6 +364,44 @@ namespace Pokedex
             btn_status.Enabled = true;
             btn_tipo.Enabled = true;
             btn_limpar.Enabled = true;
+        }
+
+        private void Btn_proximoForm_Click(object sender, EventArgs e)
+        {
+            indexForm++;
+
+            if (_spritesUri.ElementAtOrDefault(indexForm) != null)
+            {
+                ChangeForm(_spritesUri[indexForm]);
+            }
+            else if (indexForm > _spritesUri.Count - 1)
+            {
+                indexForm = 0;
+                ChangeForm(_spritesUri[indexForm]);
+            }
+        }
+
+        private void Btn_anteriorForm_Click(object sender, EventArgs e)
+        {
+            indexForm--;
+
+            if (_spritesUri.ElementAtOrDefault(indexForm) != null)
+            {
+                ChangeForm(_spritesUri[indexForm]);
+            }
+            else if (indexForm < 0)
+            {
+                indexForm = _spritesUri.Count - 1;
+                ChangeForm(_spritesUri[indexForm]);
+            }
+        }
+
+        private void ChangeForm(Uri sprite)
+        {
+            if (sprite != null)
+            {
+                img_pokemon.Load(sprite.ToString());
+            }
         }
     }
 }
