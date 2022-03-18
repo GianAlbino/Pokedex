@@ -398,104 +398,8 @@ namespace Pokedex.Forms
             }
         }
 
-        private async void Btn_Evolucao_Click(object sender, EventArgs e)
-        {
-            BloquearBotoes();
-
-            var tasks = new List<Task>();
-            var multiProcess = _multiProcess;
-
-            txtbox_detalhes.AppendText($"Evolução do {_pokemon.Name}\r\n");
-            var response = await ApiPokemon.Instace().GetRequest($"evolution-chain?limit={_lenght}&offset=0");
-            var listEvolutions = JsonConvert.DeserializeObject<ListPokemon>(response);
-
-            for (int i = 0; i < multiProcess; i++)
-            {
-                if (listEvolutions.Results.ElementAtOrDefault(i) != null)
-                {
-                    tasks.Add(PerformEvolution(listEvolutions.Results[i]));
-
-                    if (i >= multiProcess - 1)
-                    {
-                        await Task.WhenAll(tasks.ToArray());
-                        tasks.Clear();
-
-                        multiProcess += _multiProcess;
-                    }
-                }
-                else
-                {
-                    await Task.WhenAll(tasks.ToArray());
-                    tasks.Clear();
-
-                    break;
-                }
-            }
-
-            txtbox_detalhes.AppendText("\r\n");
-
-            DesbloquearBotoes();
-        }
-
-        private async Task PerformEvolution(Result evolution)
-        {
-            var responsePokemon = await ApiPokemon.Instace().GetRequest($"{evolution.Url}");
-            var evolutionPokemon = JsonConvert.DeserializeObject<EvolutionPokemon>(responsePokemon);
-
-            if (_pokemon.Name == _textInfo.ToTitleCase(evolutionPokemon.Chain.Species.Name))
-            {
-                if (evolutionPokemon.Chain.EvolvesTo.Count == 1
-                    && evolutionPokemon.Chain.EvolvesTo[0].EvolvesTo.Count == 0)
-                {
-                    txtbox_detalhes.AppendText($"{_textInfo.ToTitleCase(evolutionPokemon.Chain.EvolvesTo[0].Species.Name)}\r\n");
-                }
-                else if (evolutionPokemon.Chain.EvolvesTo.Count >= 1
-                    && evolutionPokemon.Chain.EvolvesTo[0].EvolvesTo.Count >= 1)
-                {
-                    txtbox_detalhes.AppendText($"{_textInfo.ToTitleCase(evolutionPokemon.Chain.EvolvesTo[0].Species.Name)}\r\n");
-                    txtbox_detalhes.AppendText($"{_textInfo.ToTitleCase(evolutionPokemon.Chain.EvolvesTo[0].EvolvesTo[0].Species.Name)}\r\n");
-
-                    if (evolutionPokemon.Chain.EvolvesTo[0].EvolvesTo.ElementAtOrDefault(1) != null)
-                    {
-                        txtbox_detalhes.AppendText($"{_textInfo.ToTitleCase(evolutionPokemon.Chain.EvolvesTo[0].EvolvesTo[1].Species.Name)}\r\n");
-                    }
-                }
-                else if (_pokemon.Name == "Eevee")
-                {
-                    foreach (var evoEevee in evolutionPokemon.Chain.EvolvesTo)
-                    {
-                        txtbox_detalhes.AppendText($"{_textInfo.ToTitleCase(evoEevee.Species.Name)}\r\n");
-                    }
-                }
-                else if (evolutionPokemon.Chain.EvolvesTo.Count < 1)
-                {
-                    txtbox_detalhes.AppendText($"Não contem evolução!\r\n");
-                }
-            }
-            else if (evolutionPokemon.Chain.EvolvesTo.ElementAtOrDefault(0) != null)
-            {
-                if (_pokemon.Name == _textInfo.ToTitleCase(evolutionPokemon.Chain.EvolvesTo[0].Species.Name))
-                {
-                    txtbox_detalhes.AppendText($"{_textInfo.ToTitleCase(evolutionPokemon.Chain.EvolvesTo[0].EvolvesTo[0].Species.Name)}\r\n");
-
-                    if (evolutionPokemon.Chain.EvolvesTo[0].EvolvesTo.ElementAtOrDefault(1) != null)
-                    {
-                        txtbox_detalhes.AppendText($"{_textInfo.ToTitleCase(evolutionPokemon.Chain.EvolvesTo[0].EvolvesTo[1].Species.Name)}\r\n");
-                    }
-                }
-                else if (evolutionPokemon.Chain.EvolvesTo[0].EvolvesTo.ElementAtOrDefault(0) != null)
-                {
-                    if (_pokemon.Name == _textInfo.ToTitleCase(evolutionPokemon.Chain.EvolvesTo[0].EvolvesTo[0].Species.Name))
-                    {
-                        txtbox_detalhes.AppendText($"Ultimo estagio!\r\n");
-                    }
-                }
-            }
-        }
-
         private void BloquearBotoes()
         {
-            btn_evolucao.Enabled = false;
             btn_vantagem.Enabled = false;
             btn_fraquezas.Enabled = false;
             btn_habilidades.Enabled = false;
@@ -509,7 +413,6 @@ namespace Pokedex.Forms
 
         private void DesbloquearBotoes()
         {
-            btn_evolucao.Enabled = true;
             btn_vantagem.Enabled = true;
             btn_fraquezas.Enabled = true;
             btn_habilidades.Enabled = true;

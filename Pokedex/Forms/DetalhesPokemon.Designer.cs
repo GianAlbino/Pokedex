@@ -44,7 +44,6 @@ namespace Pokedex.Forms
             this.btn_limpar = new System.Windows.Forms.Button();
             this.btn_proximoForm = new System.Windows.Forms.Button();
             this.btn_anteriorForm = new System.Windows.Forms.Button();
-            this.btn_evolucao = new System.Windows.Forms.Button();
             this.lbl_formaPokemon = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.img_pokemon)).BeginInit();
             this.SuspendLayout();
@@ -150,7 +149,7 @@ namespace Pokedex.Forms
             // 
             // btn_peso
             // 
-            this.btn_peso.Location = new System.Drawing.Point(284, 323);
+            this.btn_peso.Location = new System.Drawing.Point(231, 99);
             this.btn_peso.Name = "btn_peso";
             this.btn_peso.Size = new System.Drawing.Size(100, 50);
             this.btn_peso.TabIndex = 18;
@@ -196,16 +195,6 @@ namespace Pokedex.Forms
             this.btn_anteriorForm.UseVisualStyleBackColor = false;
             this.btn_anteriorForm.Click += new System.EventHandler(this.Btn_anteriorForm_Click);
             // 
-            // btn_evolucao
-            // 
-            this.btn_evolucao.Location = new System.Drawing.Point(231, 99);
-            this.btn_evolucao.Name = "btn_evolucao";
-            this.btn_evolucao.Size = new System.Drawing.Size(100, 50);
-            this.btn_evolucao.TabIndex = 23;
-            this.btn_evolucao.Text = "Evolução";
-            this.btn_evolucao.UseVisualStyleBackColor = true;
-            this.btn_evolucao.Click += new System.EventHandler(this.Btn_Evolucao_Click);
-            // 
             // lbl_formaPokemon
             // 
             this.lbl_formaPokemon.AutoSize = true;
@@ -221,7 +210,6 @@ namespace Pokedex.Forms
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(700, 385);
             this.Controls.Add(this.lbl_formaPokemon);
-            this.Controls.Add(this.btn_evolucao);
             this.Controls.Add(this.btn_anteriorForm);
             this.Controls.Add(this.btn_proximoForm);
             this.Controls.Add(this.btn_limpar);
@@ -263,7 +251,6 @@ namespace Pokedex.Forms
         private System.Windows.Forms.Button btn_limpar;
         private System.Windows.Forms.Button btn_proximoForm;
         private System.Windows.Forms.Button btn_anteriorForm;
-        private System.Windows.Forms.Button btn_evolucao;
         private System.Windows.Forms.Label lbl_formaPokemon;
     }
 }
