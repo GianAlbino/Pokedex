@@ -3,10 +3,12 @@ using Pokedex.Models;
 using Pokedex.Services;
 using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Data;
 using System.Globalization;
 using System.Linq;
 using System.Threading;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace Pokedex.Forms
@@ -17,6 +19,8 @@ namespace Pokedex.Forms
         private readonly CultureInfo _cultureInfo;
         private readonly TextInfo _textInfo;
         private readonly List<Uri> _spritesUri = new List<Uri>();
+        private readonly int _lenght;
+        private readonly int _multiProcess;
 
         private int indexForm = 0;
 
@@ -31,6 +35,8 @@ namespace Pokedex.Forms
 
                 _pokemon = pokemon;
                 _pokemon.Name = _textInfo.ToTitleCase(_pokemon.Name);
+                _lenght = Convert.ToInt32(ConfigurationManager.AppSettings.Get("MaxLengthEvolutions"));
+                _multiProcess = Convert.ToInt32(ConfigurationManager.AppSettings.Get("MultiProcess"));
 
                 Populate();
             }
@@ -79,7 +85,8 @@ namespace Pokedex.Forms
                 txtbox_detalhes.AppendText($"Defense: {_pokemon.Stats[2].BaseStat}\r\n");
                 txtbox_detalhes.AppendText($"Sp. Atk: {_pokemon.Stats[3].BaseStat}\r\n");
                 txtbox_detalhes.AppendText($"Sp. Def: {_pokemon.Stats[4].BaseStat}\r\n");
-                txtbox_detalhes.AppendText($"Speed: {_pokemon.Stats[5].BaseStat}\r\n\r\n");
+                txtbox_detalhes.AppendText($"Speed: {_pokemon.Stats[5].BaseStat}\r\n");
+                txtbox_detalhes.AppendText($"Experiencia Base: {_pokemon.BaseExperience}\r\n\r\n");
 
                 DesbloquearBotoes();
             }
@@ -272,7 +279,7 @@ namespace Pokedex.Forms
             }
         }
 
-        private void Btn_altura_Click(object sender, EventArgs e)
+        private void Btn_alturaPeso_Click(object sender, EventArgs e)
         {
             try
             {
@@ -320,51 +327,22 @@ namespace Pokedex.Forms
         {
             _pokemon.Name = RepairNames.Instance().Repair(_pokemon.Name);
 
-            if (_pokemon.Sprites.FrontDefault != null)
-            {
-                _spritesUri.Add(_pokemon.Sprites.FrontDefault);
-                ChangeForm(_pokemon.Sprites.FrontDefault);
-            }
-            if (_pokemon.Sprites.FrontFemale != null)
-            {
-                _spritesUri.Add(_pokemon.Sprites.FrontFemale);
-            }
-            if (_pokemon.Sprites.FrontShiny != null)
-            {
-                _spritesUri.Add(_pokemon.Sprites.FrontShiny);
-            }
-            if (_pokemon.Sprites.FrontShinyFemale != null)
-            {
-                _spritesUri.Add(_pokemon.Sprites.FrontShinyFemale);
-            }
+            PopulateForms();
 
             lbl_nomePokemon.Text = $"{_pokemon.Id} - {_textInfo.ToTitleCase(_pokemon.Name)}";
         }
 
-        private void BloquearBotoes()
+        private void PopulateForms()
         {
-            btn_vantagem.Enabled = false;
-            btn_fraquezas.Enabled = false;
-            btn_habilidades.Enabled = false;
-            btn_localizacao.Enabled = false;
-            btn_movimentos.Enabled = false;
-            btn_peso.Enabled = false;
-            btn_status.Enabled = false;
-            btn_tipo.Enabled = false;
-            btn_limpar.Enabled = false;
-        }
-
-        private void DesbloquearBotoes()
-        {
-            btn_vantagem.Enabled = true;
-            btn_fraquezas.Enabled = true;
-            btn_habilidades.Enabled = true;
-            btn_localizacao.Enabled = true;
-            btn_movimentos.Enabled = true;
-            btn_peso.Enabled = true;
-            btn_status.Enabled = true;
-            btn_tipo.Enabled = true;
-            btn_limpar.Enabled = true;
+            ChangeForm(_pokemon.Sprites.FrontDefault);
+            AddForm(_pokemon.Sprites.FrontDefault);
+            AddForm(_pokemon.Sprites.FrontShiny);
+            AddForm(_pokemon.Sprites.FrontFemale);
+            AddForm(_pokemon.Sprites.FrontShinyFemale);
+            AddForm(_pokemon.Sprites.BackDefault);
+            AddForm(_pokemon.Sprites.BackShiny);
+            AddForm(_pokemon.Sprites.BackFemale);
+            AddForm(_pokemon.Sprites.BackShinyFemale);
         }
 
         private void Btn_proximoForm_Click(object sender, EventArgs e)
@@ -403,6 +381,121 @@ namespace Pokedex.Forms
             {
                 img_pokemon.Load(sprite.ToString());
             }
+        }
+
+        private void AddForm(Uri sprite)
+        {
+            if (sprite != null)
+            {
+                _spritesUri.Add(sprite);
+            }
+        }
+
+        private async void Btn_Evolucao_Click(object sender, EventArgs e)
+        {
+            BloquearBotoes();
+
+            var tasks = new List<Task>();
+            var multiProcess = _multiProcess;
+
+            txtbox_detalhes.AppendText($"Evolução do {_pokemon.Name}\r\n");
+            var response = await ApiPokemon.Instace().GetRequest($"evolution-chain?limit={_lenght}&offset=0");
+            var listEvolutions = JsonConvert.DeserializeObject<ListPokemon>(response);
+
+            for (int i = 0; i < multiProcess; i++)
+            {
+                if (listEvolutions.Results.ElementAtOrDefault(i) != null)
+                {
+                    tasks.Add(PerformEvolution(listEvolutions.Results[i]));
+
+                    if (i >= multiProcess - 1)
+                    {
+                        await Task.WhenAll(tasks.ToArray());
+                        tasks.Clear();
+
+                        multiProcess += _multiProcess;
+                    }
+                }
+                else
+                {
+                    await Task.WhenAll(tasks.ToArray());
+                    tasks.Clear();
+
+                    break;
+                }
+            }
+
+            txtbox_detalhes.AppendText("\r\n");
+
+            DesbloquearBotoes();
+        }
+
+        private async Task PerformEvolution(Result evolution)
+        {
+            var responsePokemon = await ApiPokemon.Instace().GetRequest($"{evolution.Url}");
+            var evolutionPokemon = JsonConvert.DeserializeObject<EvolutionPokemon>(responsePokemon);
+
+            if (_pokemon.Name == _textInfo.ToTitleCase(evolutionPokemon.Chain.Species.Name))
+            {
+                if (evolutionPokemon.Chain.EvolvesTo.Count == 1
+                    && evolutionPokemon.Chain.EvolvesTo[0].EvolvesTo.Count == 0)
+                {
+                    txtbox_detalhes.AppendText($"{_textInfo.ToTitleCase(evolutionPokemon.Chain.EvolvesTo[0].Species.Name)}\r\n");
+                }
+                else if (evolutionPokemon.Chain.EvolvesTo.Count == 1
+                    && evolutionPokemon.Chain.EvolvesTo[0].EvolvesTo.Count == 1)
+                {
+                    txtbox_detalhes.AppendText($"{_textInfo.ToTitleCase(evolutionPokemon.Chain.EvolvesTo[0].Species.Name)}\r\n");
+                    txtbox_detalhes.AppendText($"{_textInfo.ToTitleCase(evolutionPokemon.Chain.EvolvesTo[0].EvolvesTo[0].Species.Name)}\r\n");
+                }
+
+                else if (evolutionPokemon.Chain.EvolvesTo.Count < 1)
+                {
+                    txtbox_detalhes.AppendText($"Não contem evolução!\r\n");
+                }
+            }
+            else if (evolutionPokemon.Chain.EvolvesTo.ElementAtOrDefault(0) != null)
+            {
+                if (_pokemon.Name == _textInfo.ToTitleCase(evolutionPokemon.Chain.EvolvesTo[0].Species.Name))
+                {
+                    txtbox_detalhes.AppendText($"{_textInfo.ToTitleCase(evolutionPokemon.Chain.EvolvesTo[0].EvolvesTo[0].Species.Name)}\r\n");
+                }
+                else if (evolutionPokemon.Chain.EvolvesTo[0].EvolvesTo.ElementAtOrDefault(0) != null)
+                {
+                    if (_pokemon.Name == _textInfo.ToTitleCase(evolutionPokemon.Chain.EvolvesTo[0].EvolvesTo[0].Species.Name))
+                    {
+                        txtbox_detalhes.AppendText($"Ultimo estagio!\r\n");
+                    }
+                }
+            }
+        }
+
+        private void BloquearBotoes()
+        {
+            btn_evolucao.Enabled = false;
+            btn_vantagem.Enabled = false;
+            btn_fraquezas.Enabled = false;
+            btn_habilidades.Enabled = false;
+            btn_localizacao.Enabled = false;
+            btn_movimentos.Enabled = false;
+            btn_peso.Enabled = false;
+            btn_status.Enabled = false;
+            btn_tipo.Enabled = false;
+            btn_limpar.Enabled = false;
+        }
+
+        private void DesbloquearBotoes()
+        {
+            btn_evolucao.Enabled = true;
+            btn_vantagem.Enabled = true;
+            btn_fraquezas.Enabled = true;
+            btn_habilidades.Enabled = true;
+            btn_localizacao.Enabled = true;
+            btn_movimentos.Enabled = true;
+            btn_peso.Enabled = true;
+            btn_status.Enabled = true;
+            btn_tipo.Enabled = true;
+            btn_limpar.Enabled = true;
         }
     }
 }

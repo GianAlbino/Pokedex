@@ -44,6 +44,7 @@ namespace Pokedex.Forms
             this.btn_limpar = new System.Windows.Forms.Button();
             this.btn_proximoForm = new System.Windows.Forms.Button();
             this.btn_anteriorForm = new System.Windows.Forms.Button();
+            this.btn_evolucao = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.img_pokemon)).BeginInit();
             this.SuspendLayout();
             // 
@@ -51,7 +52,7 @@ namespace Pokedex.Forms
             // 
             this.img_pokemon.Location = new System.Drawing.Point(16, 99);
             this.img_pokemon.Name = "img_pokemon";
-            this.img_pokemon.Size = new System.Drawing.Size(200, 190);
+            this.img_pokemon.Size = new System.Drawing.Size(200, 246);
             this.img_pokemon.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.img_pokemon.TabIndex = 6;
             this.img_pokemon.TabStop = false;
@@ -68,7 +69,7 @@ namespace Pokedex.Forms
             // 
             // btn_status
             // 
-            this.btn_status.Location = new System.Drawing.Point(337, 99);
+            this.btn_status.Location = new System.Drawing.Point(231, 211);
             this.btn_status.Name = "btn_status";
             this.btn_status.Size = new System.Drawing.Size(100, 50);
             this.btn_status.TabIndex = 8;
@@ -78,7 +79,7 @@ namespace Pokedex.Forms
             // 
             // btn_tipo
             // 
-            this.btn_tipo.Location = new System.Drawing.Point(231, 99);
+            this.btn_tipo.Location = new System.Drawing.Point(337, 211);
             this.btn_tipo.Name = "btn_tipo";
             this.btn_tipo.Size = new System.Drawing.Size(100, 50);
             this.btn_tipo.TabIndex = 7;
@@ -93,12 +94,12 @@ namespace Pokedex.Forms
             this.txtbox_detalhes.Name = "txtbox_detalhes";
             this.txtbox_detalhes.ReadOnly = true;
             this.txtbox_detalhes.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.txtbox_detalhes.Size = new System.Drawing.Size(235, 276);
+            this.txtbox_detalhes.Size = new System.Drawing.Size(235, 332);
             this.txtbox_detalhes.TabIndex = 10;
             // 
             // btn_fraquezas
             // 
-            this.btn_fraquezas.Location = new System.Drawing.Point(337, 155);
+            this.btn_fraquezas.Location = new System.Drawing.Point(337, 99);
             this.btn_fraquezas.Name = "btn_fraquezas";
             this.btn_fraquezas.Size = new System.Drawing.Size(100, 50);
             this.btn_fraquezas.TabIndex = 15;
@@ -108,7 +109,7 @@ namespace Pokedex.Forms
             // 
             // btn_movimentos
             // 
-            this.btn_movimentos.Location = new System.Drawing.Point(231, 155);
+            this.btn_movimentos.Location = new System.Drawing.Point(231, 267);
             this.btn_movimentos.Name = "btn_movimentos";
             this.btn_movimentos.Size = new System.Drawing.Size(100, 50);
             this.btn_movimentos.TabIndex = 14;
@@ -128,7 +129,7 @@ namespace Pokedex.Forms
             // 
             // btn_localizacao
             // 
-            this.btn_localizacao.Location = new System.Drawing.Point(231, 211);
+            this.btn_localizacao.Location = new System.Drawing.Point(231, 155);
             this.btn_localizacao.Name = "btn_localizacao";
             this.btn_localizacao.Size = new System.Drawing.Size(100, 50);
             this.btn_localizacao.TabIndex = 12;
@@ -138,7 +139,7 @@ namespace Pokedex.Forms
             // 
             // btn_vantagem
             // 
-            this.btn_vantagem.Location = new System.Drawing.Point(337, 211);
+            this.btn_vantagem.Location = new System.Drawing.Point(337, 155);
             this.btn_vantagem.Name = "btn_vantagem";
             this.btn_vantagem.Size = new System.Drawing.Size(100, 50);
             this.btn_vantagem.TabIndex = 19;
@@ -148,13 +149,13 @@ namespace Pokedex.Forms
             // 
             // btn_peso
             // 
-            this.btn_peso.Location = new System.Drawing.Point(231, 267);
+            this.btn_peso.Location = new System.Drawing.Point(284, 323);
             this.btn_peso.Name = "btn_peso";
             this.btn_peso.Size = new System.Drawing.Size(100, 50);
             this.btn_peso.TabIndex = 18;
             this.btn_peso.Text = "Peso/Altura";
             this.btn_peso.UseVisualStyleBackColor = true;
-            this.btn_peso.Click += new System.EventHandler(this.Btn_altura_Click);
+            this.btn_peso.Click += new System.EventHandler(this.Btn_alturaPeso_Click);
             // 
             // btn_limpar
             // 
@@ -171,7 +172,7 @@ namespace Pokedex.Forms
             this.btn_proximoForm.BackColor = System.Drawing.SystemColors.Control;
             this.btn_proximoForm.FlatStyle = System.Windows.Forms.FlatStyle.System;
             this.btn_proximoForm.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.btn_proximoForm.Location = new System.Drawing.Point(116, 295);
+            this.btn_proximoForm.Location = new System.Drawing.Point(116, 351);
             this.btn_proximoForm.Name = "btn_proximoForm";
             this.btn_proximoForm.Size = new System.Drawing.Size(100, 22);
             this.btn_proximoForm.TabIndex = 21;
@@ -185,7 +186,7 @@ namespace Pokedex.Forms
             this.btn_anteriorForm.BackColor = System.Drawing.SystemColors.Control;
             this.btn_anteriorForm.FlatStyle = System.Windows.Forms.FlatStyle.System;
             this.btn_anteriorForm.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.btn_anteriorForm.Location = new System.Drawing.Point(16, 295);
+            this.btn_anteriorForm.Location = new System.Drawing.Point(16, 351);
             this.btn_anteriorForm.Name = "btn_anteriorForm";
             this.btn_anteriorForm.Size = new System.Drawing.Size(100, 22);
             this.btn_anteriorForm.TabIndex = 22;
@@ -194,11 +195,22 @@ namespace Pokedex.Forms
             this.btn_anteriorForm.UseVisualStyleBackColor = false;
             this.btn_anteriorForm.Click += new System.EventHandler(this.Btn_anteriorForm_Click);
             // 
+            // btn_evolucao
+            // 
+            this.btn_evolucao.Location = new System.Drawing.Point(231, 99);
+            this.btn_evolucao.Name = "btn_evolucao";
+            this.btn_evolucao.Size = new System.Drawing.Size(100, 50);
+            this.btn_evolucao.TabIndex = 23;
+            this.btn_evolucao.Text = "Evolução";
+            this.btn_evolucao.UseVisualStyleBackColor = true;
+            this.btn_evolucao.Click += new System.EventHandler(this.Btn_Evolucao_Click);
+            // 
             // DetalhesPokemon
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(700, 329);
+            this.ClientSize = new System.Drawing.Size(700, 385);
+            this.Controls.Add(this.btn_evolucao);
             this.Controls.Add(this.btn_anteriorForm);
             this.Controls.Add(this.btn_proximoForm);
             this.Controls.Add(this.btn_limpar);
@@ -240,5 +252,6 @@ namespace Pokedex.Forms
         private System.Windows.Forms.Button btn_limpar;
         private System.Windows.Forms.Button btn_proximoForm;
         private System.Windows.Forms.Button btn_anteriorForm;
+        private System.Windows.Forms.Button btn_evolucao;
     }
 }
