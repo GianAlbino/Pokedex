@@ -6,7 +6,7 @@
     <UseWindowsForms>true</UseWindowsForms>
     <ApplicationIcon>poke.ico</ApplicationIcon>
     <Win32Resource />
-    <StartupObject>Pokedex.Program</StartupObject>
+    <StartupObject>Pokedex.Forms.Program</StartupObject>
   </PropertyGroup>
 
   <ItemGroup>

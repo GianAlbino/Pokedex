@@ -1,5 +1,5 @@
 ﻿
-namespace Pokedex
+namespace Pokedex.Forms
 {
     partial class DetalhesPokemon
     {

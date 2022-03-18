@@ -1,7 +1,7 @@
 using System;
 using System.Windows.Forms;
 
-namespace Pokedex
+namespace Pokedex.Forms
 {
     static class Program
     {

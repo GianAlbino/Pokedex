@@ -1,5 +1,6 @@
 ﻿using Newtonsoft.Json;
 using Pokedex.Models;
+using Pokedex.Services;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -8,7 +9,7 @@ using System.Linq;
 using System.Threading;
 using System.Windows.Forms;
 
-namespace Pokedex
+namespace Pokedex.Forms
 {
     public partial class DetalhesPokemon : Form
     {

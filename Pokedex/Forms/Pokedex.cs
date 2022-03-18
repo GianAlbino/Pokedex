@@ -1,6 +1,7 @@
 ﻿using Newtonsoft.Json;
 using Pokedex.Models;
 using Pokedex.Properties;
+using Pokedex.Services;
 using System;
 using System.Configuration;
 using System.Globalization;
@@ -9,7 +10,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace Pokedex
+namespace Pokedex.Forms
 {
     public partial class Pokedex : Form
     {
