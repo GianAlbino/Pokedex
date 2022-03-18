@@ -45,6 +45,7 @@ namespace Pokedex.Forms
             this.btn_proximoForm = new System.Windows.Forms.Button();
             this.btn_anteriorForm = new System.Windows.Forms.Button();
             this.btn_evolucao = new System.Windows.Forms.Button();
+            this.lbl_formaPokemon = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.img_pokemon)).BeginInit();
             this.SuspendLayout();
             // 
@@ -205,11 +206,21 @@ namespace Pokedex.Forms
             this.btn_evolucao.UseVisualStyleBackColor = true;
             this.btn_evolucao.Click += new System.EventHandler(this.Btn_Evolucao_Click);
             // 
+            // lbl_formaPokemon
+            // 
+            this.lbl_formaPokemon.AutoSize = true;
+            this.lbl_formaPokemon.Location = new System.Drawing.Point(16, 65);
+            this.lbl_formaPokemon.Name = "lbl_formaPokemon";
+            this.lbl_formaPokemon.Size = new System.Drawing.Size(93, 15);
+            this.lbl_formaPokemon.TabIndex = 24;
+            this.lbl_formaPokemon.Text = "pokemon forma";
+            // 
             // DetalhesPokemon
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(700, 385);
+            this.Controls.Add(this.lbl_formaPokemon);
             this.Controls.Add(this.btn_evolucao);
             this.Controls.Add(this.btn_anteriorForm);
             this.Controls.Add(this.btn_proximoForm);
@@ -253,5 +264,6 @@ namespace Pokedex.Forms
         private System.Windows.Forms.Button btn_proximoForm;
         private System.Windows.Forms.Button btn_anteriorForm;
         private System.Windows.Forms.Button btn_evolucao;
+        private System.Windows.Forms.Label lbl_formaPokemon;
     }
 }

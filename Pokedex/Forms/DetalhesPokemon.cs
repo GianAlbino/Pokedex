@@ -18,7 +18,7 @@ namespace Pokedex.Forms
         private readonly Pokemon _pokemon;
         private readonly CultureInfo _cultureInfo;
         private readonly TextInfo _textInfo;
-        private readonly List<Uri> _spritesUri = new List<Uri>();
+        private readonly Dictionary<string, Uri> _spritesUri = new Dictionary<string, Uri>();
         private readonly int _lenght;
         private readonly int _multiProcess;
 
@@ -129,7 +129,7 @@ namespace Pokedex.Forms
             {
                 BloquearBotoes();
 
-                txtbox_detalhes.AppendText($"Fraquezas do {_pokemon.Name}\r\n");
+                txtbox_detalhes.AppendText($"Defendendo com {_pokemon.Name}\r\n");
                 var response = await ApiPokemon.Instace().GetRequest($"{_pokemon.Types[0].Type.Url}");
 
                 List<TypePokemon> typesPokemon = new List<TypePokemon>
@@ -145,21 +145,21 @@ namespace Pokedex.Forms
 
                 foreach (var type in typesPokemon)
                 {
-                    txtbox_detalhes.AppendText($"Fraquezas do tipo {type.Name}\r\n");
+                    txtbox_detalhes.AppendText($"Defendendo com o tipo {type.Name}\r\n");
 
                     foreach (var damage in type.DamageRelations.DoubleDamageFrom)
                     {
-                        txtbox_detalhes.AppendText($"2X do tipo {damage.Name}\r\n");
+                        txtbox_detalhes.AppendText($"2X no tipo {damage.Name}\r\n");
                     }
 
                     foreach (var damage in type.DamageRelations.HalfDamageFrom)
                     {
-                        txtbox_detalhes.AppendText($"0.5X do tipo {damage.Name}\r\n");
+                        txtbox_detalhes.AppendText($"0.5X no tipo {damage.Name}\r\n");
                     }
 
                     foreach (var damage in type.DamageRelations.NoDamageFrom)
                     {
-                        txtbox_detalhes.AppendText($"0X do tipo {damage.Name}\r\n");
+                        txtbox_detalhes.AppendText($"0X no tipo {damage.Name}\r\n");
                     }
 
                     txtbox_detalhes.AppendText("\r\n");
@@ -233,7 +233,7 @@ namespace Pokedex.Forms
             {
                 BloquearBotoes();
 
-                txtbox_detalhes.AppendText($"Vantagens do {_pokemon.Name}\r\n");
+                txtbox_detalhes.AppendText($"Atacando com {_pokemon.Name}\r\n");
                 var response = await ApiPokemon.Instace().GetRequest($"{_pokemon.Types[0].Type.Url}");
 
                 List<TypePokemon> typesPokemon = new List<TypePokemon>
@@ -249,21 +249,21 @@ namespace Pokedex.Forms
 
                 foreach (var type in typesPokemon)
                 {
-                    txtbox_detalhes.AppendText($"Vantagens do tipo {type.Name}\r\n");
+                    txtbox_detalhes.AppendText($"Atacando com o tipo {type.Name}\r\n");
 
                     foreach (var damage in type.DamageRelations.DoubleDamageTo)
                     {
-                        txtbox_detalhes.AppendText($"2X do tipo {damage.Name}\r\n");
+                        txtbox_detalhes.AppendText($"2X no tipo {damage.Name}\r\n");
                     }
 
                     foreach (var damage in type.DamageRelations.HalfDamageTo)
                     {
-                        txtbox_detalhes.AppendText($"0.5X do tipo {damage.Name}\r\n");
+                        txtbox_detalhes.AppendText($"0.5X no tipo {damage.Name}\r\n");
                     }
 
                     foreach (var damage in type.DamageRelations.NoDamageTo)
                     {
-                        txtbox_detalhes.AppendText($"0X do tipo {damage.Name}\r\n");
+                        txtbox_detalhes.AppendText($"0X no tipo {damage.Name}\r\n");
                     }
 
                     txtbox_detalhes.AppendText("\r\n");
@@ -328,35 +328,37 @@ namespace Pokedex.Forms
             _pokemon.Name = RepairNames.Instance().Repair(_pokemon.Name);
 
             PopulateForms();
-
-            lbl_nomePokemon.Text = $"{_pokemon.Id} - {_textInfo.ToTitleCase(_pokemon.Name)}";
         }
 
         private void PopulateForms()
         {
-            ChangeForm(_pokemon.Sprites.FrontDefault);
-            AddForm(_pokemon.Sprites.FrontDefault);
-            AddForm(_pokemon.Sprites.FrontShiny);
-            AddForm(_pokemon.Sprites.FrontFemale);
-            AddForm(_pokemon.Sprites.FrontShinyFemale);
-            AddForm(_pokemon.Sprites.BackDefault);
-            AddForm(_pokemon.Sprites.BackShiny);
-            AddForm(_pokemon.Sprites.BackFemale);
-            AddForm(_pokemon.Sprites.BackShinyFemale);
+            ChangeForm(_pokemon.Sprites.FrontDefault, "Frente Macho");
+
+            AddForm(_pokemon.Sprites.FrontDefault, "Frente Macho");
+            AddForm(_pokemon.Sprites.FrontShiny, "Frente Macho Shiny");
+
+            AddForm(_pokemon.Sprites.FrontFemale, "Frente Femea");
+            AddForm(_pokemon.Sprites.FrontShinyFemale, "Frente Femea Shiny");
+
+            AddForm(_pokemon.Sprites.BackDefault, "Costas Macho");
+            AddForm(_pokemon.Sprites.BackShiny, "Costas Macho Shiny");
+
+            AddForm(_pokemon.Sprites.BackFemale, "Costas Femea");
+            AddForm(_pokemon.Sprites.BackShinyFemale, "Costas Femea Shiny");
         }
 
         private void Btn_proximoForm_Click(object sender, EventArgs e)
         {
             indexForm++;
 
-            if (_spritesUri.ElementAtOrDefault(indexForm) != null)
+            if (_spritesUri.ElementAtOrDefault(indexForm).Value != null)
             {
-                ChangeForm(_spritesUri[indexForm]);
+                ChangeForm(_spritesUri.Values.ElementAt(indexForm), _spritesUri.Keys.ElementAt(indexForm));
             }
             else if (indexForm > _spritesUri.Count - 1)
             {
                 indexForm = 0;
-                ChangeForm(_spritesUri[indexForm]);
+                ChangeForm(_spritesUri.Values.ElementAt(indexForm), _spritesUri.Keys.ElementAt(indexForm));
             }
         }
 
@@ -364,30 +366,35 @@ namespace Pokedex.Forms
         {
             indexForm--;
 
-            if (_spritesUri.ElementAtOrDefault(indexForm) != null)
+            if (_spritesUri.ElementAtOrDefault(indexForm).Value != null)
             {
-                ChangeForm(_spritesUri[indexForm]);
+                ChangeForm(_spritesUri.Values.ElementAt(indexForm), _spritesUri.Keys.ElementAt(indexForm));
             }
             else if (indexForm < 0)
             {
                 indexForm = _spritesUri.Count - 1;
-                ChangeForm(_spritesUri[indexForm]);
+                ChangeForm(_spritesUri.Values.ElementAt(indexForm), _spritesUri.Keys.ElementAt(indexForm));
             }
         }
 
-        private void ChangeForm(Uri sprite)
+        private void ChangeForm(Uri sprite, string version)
         {
             if (sprite != null)
             {
                 img_pokemon.Load(sprite.ToString());
+
+                lbl_nomePokemon.Text = $"{_pokemon.Id} - " +
+                    $"{_textInfo.ToTitleCase(_pokemon.Name)}";
+
+                lbl_formaPokemon.Text = $"{version}";
             }
         }
 
-        private void AddForm(Uri sprite)
+        private void AddForm(Uri sprite, string version)
         {
             if (sprite != null)
             {
-                _spritesUri.Add(sprite);
+                _spritesUri.Add(version, sprite);
             }
         }
 
@@ -453,7 +460,13 @@ namespace Pokedex.Forms
                         txtbox_detalhes.AppendText($"{_textInfo.ToTitleCase(evolutionPokemon.Chain.EvolvesTo[0].EvolvesTo[1].Species.Name)}\r\n");
                     }
                 }
-
+                else if (_pokemon.Name == "Eevee")
+                {
+                    foreach (var evoEevee in evolutionPokemon.Chain.EvolvesTo)
+                    {
+                        txtbox_detalhes.AppendText($"{_textInfo.ToTitleCase(evoEevee.Species.Name)}\r\n");
+                    }
+                }
                 else if (evolutionPokemon.Chain.EvolvesTo.Count < 1)
                 {
                     txtbox_detalhes.AppendText($"Não contem evolução!\r\n");
@@ -464,6 +477,11 @@ namespace Pokedex.Forms
                 if (_pokemon.Name == _textInfo.ToTitleCase(evolutionPokemon.Chain.EvolvesTo[0].Species.Name))
                 {
                     txtbox_detalhes.AppendText($"{_textInfo.ToTitleCase(evolutionPokemon.Chain.EvolvesTo[0].EvolvesTo[0].Species.Name)}\r\n");
+
+                    if (evolutionPokemon.Chain.EvolvesTo[0].EvolvesTo.ElementAtOrDefault(1) != null)
+                    {
+                        txtbox_detalhes.AppendText($"{_textInfo.ToTitleCase(evolutionPokemon.Chain.EvolvesTo[0].EvolvesTo[1].Species.Name)}\r\n");
+                    }
                 }
                 else if (evolutionPokemon.Chain.EvolvesTo[0].EvolvesTo.ElementAtOrDefault(0) != null)
                 {
